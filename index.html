@@ -211,6 +211,45 @@
 
 <div class="post-preview">
 
+    <a href="/article/Android-SO-Reduce-Size/">
+        <h2 class="post-title">
+            Android SO 体积优化
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            简介
+本文以实际项目为例，介绍so体积优化的流程。
+因之前的项目没有禁用RTTI和exception，不能确定禁用此两项带来的效果。
+具体的优化
+
+修改为release模式
+Use -fvisibility=hidden
+-O2 或者 -O3 或者 -Os
+Discard Unused Functions with gc-sections
+Remove Duplicated Code
+
+修改......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by guowei on
+            2019-02-23
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#jni" title="jni">jni</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/article/ijkplayer-android/">
         <h2 class="post-title">
             ijkplayer播放器-Android端
@@ -285,6 +324,8 @@ Deploy to remote ......
         
             
         
+            
+        
     </div>
 </section>
 
@@ -338,6 +379,10 @@ Deploy to remote ......
     <ul>
       
         <li>
+          <a href="/article/Android-SO-Reduce-Size/">Android SO 体积优化</a>
+        </li>
+      
+        <li>
           <a href="/article/ijkplayer-android/">ijkplayer播放器-Android端</a>
         </li>
       
@@ -363,7 +408,7 @@ Deploy to remote ......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li></ul>
     </div>
 
         <hr>

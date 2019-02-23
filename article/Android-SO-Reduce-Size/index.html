@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Archives - Blog
+          Android SO 体积优化 - Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.huweihuang.com/archive/">
+    <link rel="canonical" href="http://www.huweihuang.com/article/Android-SO-Reduce-Size/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,8 +71,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/archive.jpg')
-            /*page*/
+            background-image: url('/img/article_header/article_bg.jpg')
+            /*post*/
         
     }
     
@@ -85,10 +85,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>Archives</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">Hey, this is archives</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#jni" title="jni">jni</a>
+                            
+                        </div>
+                        <h1>Android SO 体积优化</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by guowei on
+                            2019-02-23
+                        </span>
                     </div>
                 
 
@@ -191,199 +199,199 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 归档列表 -->
-            
-            
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-             <!-- 归档列表 -->
+                <h1 id="简介">简介</h1>
+<p>本文以实际项目为例，介绍so体积优化的流程。</p>
+<p>因之前的项目没有禁用RTTI和exception，不能确定禁用此两项带来的效果。</p>
+<h1 id="具体的优化">具体的优化</h1>
+<ul>
+<li>修改为release模式</li>
+<li>Use -fvisibility=hidden</li>
+<li>-O2 或者 -O3 或者 -Os</li>
+<li>Discard Unused Functions with gc-sections</li>
+<li>Remove Duplicated Code</li>
+</ul>
+<h2 id="修改为release模式">修改为release模式</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_OPTIM := release</span><br></pre></td></tr></table></figure>
+<p>修改后，大概可以减小500KB</p>
+<h2 id="use-fvisibilityhidden">Use -fvisibility=hidden</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_CPPFLAGS += -fvisibility=hidden</span><br><span class="line">LOCAL_CFLAGS += -fvisibility=hidden</span><br></pre></td></tr></table></figure>
+<p>效果比较明显，可以减小 1.4MB</p>
+<h2 id="-o2-或者-o3-或者-os">-O2 或者 -O3 或者 -Os</h2>
+<p>编译优化选项，一般选择O2，兼顾了优化程度与目标大小</p>
+<p>效果比较明显，减了500KB</p>
+<h2 id="discard-unused-functions-with-gc-sections">Discard Unused Functions with gc-sections</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections</span><br><span class="line">LOCAL_CFLAGS += -ffunction-sections -fdata-sections </span><br><span class="line">LOCAL_LDFLAGS += -Wl,--gc-sections</span><br></pre></td></tr></table></figure>
+<p>可以减小100KB</p>
+<h2 id="remove-duplicated-code">Remove Duplicated Code</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_LDFLAGS += -Wl,--gc-sections,--icf=safe</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料">参考资料</h2>
+<p>Android NDK: How to Reduce Binaries Size – The Algolia Blog<br>
+<a href="https://blog.algolia.com/android-ndk-how-to-reduce-libs-size/" target="_blank" rel="noopener">https://blog.algolia.com/android-ndk-how-to-reduce-libs-size/</a></p>
+<p>Android-NDK:设置NDK编译选项<br>
+<a href="http://blog.csdn.net/qzs_kaka/article/details/52680315" target="_blank" rel="noopener">http://blog.csdn.net/qzs_kaka/article/details/52680315</a></p>
 
-            
-            <div class="one-tag-list">
-                <span class="fa fa-calendar-times-o listing-seperator" id="2019">
-                    <span class="tag-text">2019</span>
-                </span>
-                <ul>
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    02-23
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/Android-SO-Reduce-Size/" style="color: #0085a1">
-                        <span>
-                            Android SO 体积优化
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    02-20
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/ijkplayer-android/" style="color: #0085a1">
-                        <span>
-                            ijkplayer播放器-Android端
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/ijkplayer-android/" data-toggle="tooltip" data-placement="top" title="ijkplayer播放器-Android端">Next Post &rarr;</a>
+                        </li>
+                    
                 </ul>
-            </div>
-            
-
-
-        </div>
-    </div>
-</div>
 
                 <br>
 
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
                 <!-- require APlayer -->
                 
 
-                <!-- 如果开启评论功能 -->
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#简介"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">简介</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#具体的优化"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">具体的优化</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#修改为release模式"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">修改为release模式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#use-fvisibilityhidden"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Use -fvisibility=hidden</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#-o2-或者-o3-或者-os"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">-O2 或者 -O3 或者 -Os</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#discard-unused-functions-with-gc-sections"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">Discard Unused Functions with gc-sections</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#remove-duplicated-code"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">Remove Duplicated Code</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#参考资料"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">参考资料</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#jni" title="jni">jni</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/maytrue" target="_blank">CSDN Blog maytrue</a></li>
+                    
+                        <li><a href="https://github.com/maytrue" target="_blank">github</a></li>
+                    
+                </ul>
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-        
-            
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
 
-        
-            <img id="avatar_pic" src="/img/avatar/ironman.png">
-        
 
-        
-            <p>Stay hungry,Stay foolish</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
 
-            
 
-            
 
-            
-                <li>
-                    <a target="_blank" href="https://github.com/maytrue">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
 
-        <hr>
-    
-        
-  <h5>RECENT POSTS
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/Android-SO-Reduce-Size/">Android SO 体积优化</a>
-        </li>
-      
-        <li>
-          <a href="/article/ijkplayer-android/">ijkplayer播放器-Android端</a>
-        </li>
-      
-    </ul>
-  </div>
-</h5>
-        <hr>
-    
-        <!-- Friends Blog -->
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-<h5>FRIENDS</h5>
-<ul class="list-inline">
-
-    
-        <li><a href="http://blog.csdn.net/maytrue" target="_blank">CSDN Blog maytrue</a></li>
-    
-        <li><a href="https://github.com/maytrue" target="_blank">github</a></li>
-    
-</ul>
-
-        <hr>
-    
-        
-    <h5>ARCHIVES</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li></ul>
-    </div>
-
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->
